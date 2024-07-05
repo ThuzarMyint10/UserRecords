@@ -4,9 +4,6 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Contracts\BaseInterface;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Config;
 
 class UserService
 {
@@ -15,14 +12,9 @@ class UserService
   {
   }
 
-  public function store(array $data, string $role): User
-  {
-    unset($data['role']);
-    $data['is_active'] = $role === Config::get('constants.USER') ? Config::get('constants.ONE') : Config::get('constants.ZERO');
-    $user = $this->repository->store('User', $data);
-    event(new Registered($user));
-    $user->assignRole($role);
-    Auth::login($user);
+  public function store(array $data): User
+  { 
+    $user = $this->repository->massDataSave('User', $data);
     return $user;
   }
 

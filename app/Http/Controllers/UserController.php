@@ -4,42 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Events\UserRecordDeleted;
 
 class UserController extends Controller
 {
+
+    public function __construct(protected UserService $service)
+    {
+    }
+    
     public function index(Request $request)
     {
-        $users = User::query()
-            ->when($request->search, function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10); // Adjust pagination as per your needs
+        $users = User::paginate(10);
+        foreach ($users as $user) {
+            $name = json_decode($user->name);
+            $user->formatted_name = $name->title . ' ' . $name->first . ' ' . $name->last;
+        }
 
         return view('users.index', compact('users'));
     }
 
-    public function destroy(User $user)
-    {
-        $user->delete();
-
-        // Update DailyRecord counts based on gender
-        $this->updateDailyRecordCounts($user->gender);
-
-        return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully.');
+    public function store()
+    {  
     }
 
-    private function updateDailyRecordCounts($gender)
+    public function destroy($id)
     {
-        // Implement your logic to update DailyRecord counts based on gender
-        // Example:
-        // $dailyRecord = DailyRecord::where('date', now()->toDateString())->first();
-        // if ($gender === 'male') {
-        //     $dailyRecord->male_count -= 1;
-        // } elseif ($gender === 'female') {
-        //     $dailyRecord->female_count -= 1;
-        // }
-        // $dailyRecord->save();
+        $user = User::findOrFail($id);
+        $this->service->delete($id);
+
+        // Fire the event with the gender of the deleted user
+        event(new UserRecordDeleted($user->created_at->format('Y-m-d'), $user->gender));
+
+        $currentPage = request()->get('page', 1);
+        return redirect()->route('users.index', ['page' => $currentPage])->with('success', 'User deleted successfully');
     }
+ 
 }

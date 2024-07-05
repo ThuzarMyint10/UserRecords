@@ -5,7 +5,7 @@ namespace App\DB\Core;
 use App\Exceptions\CrudException;
 use Carbon\Carbon;
 
-class DateTimeField extends Field
+class DatetimeField extends Field
 {
   public function execute()
   {

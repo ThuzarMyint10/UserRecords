@@ -18,6 +18,7 @@ class Crud
         private ?int $id = null,
         private ?string $relation = null,
         private bool $storeMode = false,
+        private bool $massDataSavingMode = false,
         private bool $twoModelsStoreMode = false,
         private bool $editMode = false,
         private bool $deleteMode = false,
@@ -46,6 +47,8 @@ class Crud
                 return $this->handleDeleteMode();
             } elseif ($this->storeMode) {
                 return $this->handleStoreMode();
+            } elseif ($this->massDataSavingMode) {
+                return $this->handleMassDataSaving();
             } else {
                 return $this->handleTwoModelsStoreMode();
             }
@@ -55,7 +58,7 @@ class Crud
     }
 
     protected function iterateData(array $data, ?Model $record = null): Model
-    {
+    { 
         $target = $record ?? $this->model;
         foreach ($data as $column => $value) { //['full_name'] = {first_name:"mg",last_name:"mg"}
             if (!is_object($value) || $column === 'upload_url') {
@@ -75,6 +78,12 @@ class Crud
             throw CrudException::internalServerError();
         }
         return $model;
+    }
+
+    protected function handleMassDataSaving()
+    {
+        $this->model::insert($this->data);
+        return $this->model;
     }
 
     protected function handleTwoModelsStoreMode(): void
