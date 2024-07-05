@@ -82,18 +82,18 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'user_records'),
-            'username' => env('DB_USERNAME', 'postgres'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => env('DB_CHARSET', 'utf8'),
+            'host' => parse_url(env('DATABASE_URL'), PHP_URL_HOST),
+            'port' => parse_url(env('DATABASE_URL'), PHP_URL_PORT),
+            'database' => substr(parse_url(env('DATABASE_URL'), PHP_URL_PATH), 1),
+            'username' => parse_url(env('DATABASE_URL'), PHP_URL_USER),
+            'password' => parse_url(env('DATABASE_URL'), PHP_URL_PASS),
+            'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public',
+            'schema' => 'public',
             'sslmode' => 'prefer',
         ],
+
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
