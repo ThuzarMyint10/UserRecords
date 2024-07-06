@@ -11,19 +11,14 @@ class UpdateDailyRecord
 {
     /* If user delete the record, need to update dailyrecord table & redis */
     use CalculateAvgAgeTrait, GenderCountTrait;
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        $this->initializeDate();
-    }
+   
 
     /**
      * Handle the event.
      */
     public function handle(UserRecordDeleted $event): void
     {
+        $this->initializeDate($event->date);
         $avgAge = $this->calculateAvgAge();
         $query = DailyRecord::where('date', $event->date);
         $this->UpdateDailyRecord($event->gender, $query, $avgAge);

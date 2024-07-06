@@ -86,7 +86,7 @@
     document.querySelectorAll('.delete-button').forEach(button => {
         button.addEventListener('click', function() {
             const form = this.closest('form');
-            const currentPage = new URLSearchParams(window.location.search).get('page') || 1;
+            const currentPage = new URLSearchParams(window.location.search).get('page') || '';
             form.action = form.action + '&page=' + currentPage;
 
             Swal.fire({

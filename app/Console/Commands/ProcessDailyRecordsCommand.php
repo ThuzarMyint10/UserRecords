@@ -16,7 +16,7 @@ class ProcessDailyRecordsCommand extends Command
     public function __construct(protected DailyRecordService $service)
     {
         parent::__construct();
-        $this->initializeDate();
+        $this->initializeDate(now());
     }
     /**
      * The name and signature of the console command.
@@ -43,7 +43,7 @@ class ProcessDailyRecordsCommand extends Command
             $femaleCount = Redis::get('female_count') ?? 0;
 
             // Calculate average ages for males and females
-            $avgAge = $this->calculateAvgAge();
+            $avgAge = $this->calculateAvgAge(now());
 
             // Prepare data to store in DailyRecord table
             $data = [

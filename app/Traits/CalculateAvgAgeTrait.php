@@ -7,24 +7,25 @@ use Illuminate\Support\Carbon;
 
 /* This trait provides methods to calculate the average age of users
  by gender for the current day. */
+
 trait CalculateAvgAgeTrait
 {
     protected $startOfDay;
     protected $endOfDay;
 
     // Initialize the start and end of the day.
-    public function initializeDate()
+    public function initializeDate($date = null)
     {
-        $this->startOfDay = Carbon::now()->startOfDay();
-        $this->endOfDay = Carbon::now()->endOfDay();
+        $this->startOfDay = Carbon::parse($date)->startOfDay();
+        $this->endOfDay = Carbon::parse($date)->endOfDay();
     }
 
     // calculate the average age
     public function calculateAvgAge()
     {
         return User::whereBetween('created_at', [$this->startOfDay, $this->endOfDay])
-                ->selectRaw('gender, AVG(age) as avg_age')
-                ->groupBy('gender')
-                ->pluck('avg_age', 'gender')->toArray();    
+            ->selectRaw('gender, AVG(age) as avg_age')
+            ->groupBy('gender')
+            ->pluck('avg_age', 'gender')->toArray();
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique(); // Use UUID for uniqueness
+            $table->string('uuid')->unique(); // Use UUID for uniqueness
             $table->string('gender');
             $table->json('name');
             $table->json('location');

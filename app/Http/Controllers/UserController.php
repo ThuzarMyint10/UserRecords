@@ -13,7 +13,7 @@ class UserController extends Controller
     public function __construct(protected UserService $service)
     {
     }
-    
+
     public function index(Request $request)
     {
         $users = User::paginate(10);
@@ -26,10 +26,10 @@ class UserController extends Controller
     }
 
     public function store()
-    {  
+    {
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $user = User::findOrFail($id);
         $this->service->delete($id);
@@ -37,8 +37,7 @@ class UserController extends Controller
         // Fire the event with the gender of the deleted user
         event(new UserRecordDeleted($user->created_at->format('Y-m-d'), $user->gender));
 
-        $currentPage = request()->get('page', 1);
+        $currentPage = $request->get('page', '');
         return redirect()->route('users.index', ['page' => $currentPage])->with('success', 'User deleted successfully');
     }
- 
 }

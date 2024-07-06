@@ -11,8 +11,8 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Male Avg Count</th>
-                        <th>Female Avg Count</th>
+                        <th>Male Count</th>
+                        <th>Female Count</th>
                         <th>Male Avg Age</th>
                         <th>Female Avg Age</th>
                     </tr>

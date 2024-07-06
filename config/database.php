@@ -79,7 +79,7 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
+        /* 'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
             'host' => parse_url(env('DATABASE_URL'), PHP_URL_HOST),
@@ -92,7 +92,22 @@ return [
             'prefix_indexes' => true,
             'schema' => 'public',
             'sslmode' => 'prefer',
+        ], */
+
+        'pgsql' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'user_records'),
+            'username' => env('DB_USERNAME', 'postgres'),
+            'password' => env('DB_PASSWORD', 'root'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ],
+
 
 
         'sqlsrv' => [
@@ -143,12 +158,20 @@ return [
 
         'client' => env('REDIS_CLIENT', 'predis'),
         'default' => [
-            'url' => env('REDIS_URL'),
-            'host' => parse_url(env('REDIS_URL'), PHP_URL_HOST),
-            'password' => parse_url(env('REDIS_URL'), PHP_URL_PASS),
-            'port' => parse_url(env('REDIS_URL'), PHP_URL_PORT),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
             'database' => 0, // Redis database number
         ],
+
+        /* 'client' => env('REDIS_CLIENT', 'predis'),
+        'default' => [
+            'url' => env('REDISCLOUD_URL'),
+            'host' => parse_url(env('REDISCLOUD_URL'), PHP_URL_HOST),
+            'password' => parse_url(env('REDISCLOUD_URL'), PHP_URL_PASS),
+            'port' => parse_url(env('REDISCLOUD_URL'), PHP_URL_PORT),
+            'database' => 0, // Redis database number
+        ], */
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
@@ -156,7 +179,7 @@ return [
         ],
 
         'cache' => [
-            'url' => env('REDIS_URL'),
+            'url' => env('REDISCLOUD_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),

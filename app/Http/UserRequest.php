@@ -29,4 +29,11 @@ class UserRequest extends FormRequest
             'password' => 'required|min:5|confirmed|regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{5,20}$/',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'role.required' => 'user role is required',
+        ];
+    }
 }

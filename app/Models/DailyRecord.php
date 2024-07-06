@@ -9,7 +9,7 @@ use App\Exceptions\CrudException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DailyRecord extends Model
+  class DailyRecord extends Model
 {
     use HasFactory;
     public function saveableFields($column): object
