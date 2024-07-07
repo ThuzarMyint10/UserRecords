@@ -10,7 +10,7 @@ Artisan::command('inspire', function () {
 
 
 // Schedule::job(new FetchAndStoreUserRecordsJob)->everyMinute();
-// Schedule::command('fetch:users')->everyMinute();
+Schedule::command('fetch:users')->everyMinute();
 Schedule::command('app:daily-records')->everyMinute();
 // Schedule::command('fetch:users')->hourly();
 // Schedule::command('app:daily-records')->dailyAt('00:00');

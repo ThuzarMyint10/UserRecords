@@ -71,7 +71,7 @@ class FetchAndStoreUserRecordsCommand extends Command
     }
 
 
-    public function CreateRedisInfo($fetchingUsers)
+    public function createRedisInfo($fetchingUsers)
     {
         // Group and count users by gender
         $genderCounts = collect($fetchingUsers)->groupBy('gender')->map->count()->toArray();

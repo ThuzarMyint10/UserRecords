@@ -21,10 +21,10 @@ class UpdateDailyRecord
         $this->initializeDate($event->date);
         $avgAge = $this->calculateAvgAge();
         $query = DailyRecord::where('date', $event->date);
-        $this->UpdateDailyRecord($event->gender, $query, $avgAge);
+        $this->updateDailyRecord($event->gender, $query, $avgAge);
     }
 
-    public function UpdateDailyRecord($gender, $query, $avgAge)
+    public function updateDailyRecord($gender, $query, $avgAge)
     {
         $gender_count = '';
         $gender_avg_age = '';
